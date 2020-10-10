@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 import './App.css';
 import EventPage from './Event/EventPage';
 import FilterPage from './Filter/FilterPage';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
+const initialFilter = {
+  TIME:'',
+  IS_FREE : '',
+  TEXT : ''
+}
 
 function App() {
-  const initialFilter = {
-    TIME:[],
-    IS_FREE : [],
-    TEXT : []
-  }
   const [searchKey,setSearchKey] = useState(initialFilter);
 
   const updateSearchVal = (val,type)=>{
@@ -19,10 +22,26 @@ function App() {
     console.log(searchKey);
   }
 
+  const selectTab = (index)=>{
+    console.log(index);
+    //alert(index);
+  }
+
   return (
     <div>
-      <FilterPage updateSearchVal = {updateSearchVal}></FilterPage>
-      <EventPage query={searchKey}></EventPage>
+    <Tabs onSelect={event => selectTab(event)}>
+        <TabList>
+          <Tab >Events View</Tab>
+          <Tab >My Events </Tab>
+        </TabList>
+        <TabPanel>
+            <FilterPage updateSearchVal = {updateSearchVal}></FilterPage>
+           <EventPage query={searchKey}></EventPage>
+        </TabPanel>
+        
+        <TabPanel>XYZ</TabPanel>
+      </Tabs>
+      
     </div>
   );
 }

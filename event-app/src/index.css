@@ -18,3 +18,8 @@ code {
   margin-bottom: 2px;
   width: auto;
 }
+
+.filterPage{
+  background-color : lightgray;
+  border: solid black 2px;
+}
