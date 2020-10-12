@@ -2,41 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -49,29 +14,32 @@ table {
   border-right: 2px solid lightseagreen;
 }
 
-.content-table th, td {
+.content-table th,
+td {
   text-align: center;
   padding: 15px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
-
-.content-table{
-  overflow-x:auto;
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
-.content-table thead th{
-  background-color : lightseagreen;
+.content-table {
+  overflow-x: auto;
+}
+
+.content-table thead th {
+  background-color: lightseagreen;
   color: #f2f2f2;
 }
 
-.filter-container{
+.filter-container {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
 }
 
-.filter-container {  
+.filter-container {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -83,14 +51,14 @@ tr:nth-child(even){background-color: #f2f2f2}
   color: cornflowerblue;
 }
 
-
-.filter-container input,select {
+.filter-container input,
+select {
   vertical-align: middle;
-    margin: 5px 10px 5px 0;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid lightseagreen;
-    border-radius: 10px;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid lightseagreen;
+  border-radius: 10px;
 }
 
 .filter-container button {
@@ -104,7 +72,7 @@ tr:nth-child(even){background-color: #f2f2f2}
   border-radius: 10px;
 }
 
-.filter-container label{
+.filter-container label {
   margin: 20px;
 }
 
@@ -153,17 +121,13 @@ tr:nth-child(even){background-color: #f2f2f2}
 
 .header-container {
   height: 25%;
-    background-color: gray;
-    background-image: linear-gradient(to bottom,lightseagreen,white);
-    text-align: center;
-
+  background-color: gray;
+  background-image: linear-gradient(to bottom, lightseagreen, white);
+  text-align: center;
 }
 
-.btn-cls{
+.btn-cls {
   background: lightcyan;
-    box-shadow: 0 2px lightseagreen;
-    border-radius: 10px;
+  box-shadow: 0 2px lightseagreen;
+  border-radius: 10px;
 }
-
-
-
