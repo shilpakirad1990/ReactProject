@@ -154,7 +154,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 .header-container {
   height: 25%;
     background-color: gray;
-    background-image: linear-gradient(to bottom,blue,white);
+    background-image: linear-gradient(to bottom,lightseagreen,white);
     text-align: center;
 
 }

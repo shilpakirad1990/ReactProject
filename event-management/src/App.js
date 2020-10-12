@@ -74,21 +74,20 @@ const App = () => {
                     } 
   }
 
-  useEffect(() => {
-    let results = eventsData.filter(x=>{
-      return (signupEvents.includes(x.id))
-    })
-    setMyEvents(results);
-    
-  }, [eventsData,signupEvents]);
-
-
- const selectTab = (index)=>{
+  
+  const selectTab = (index)=>{
    setSelectedTab(index);
   }
 
-  const signUpAction = (id) =>{
-    signupEvents.push(id);
+  const signUpAction = (id,removeSignUP) =>{
+    if(!removeSignUP && !signupEvents.includes(id)){
+      signupEvents.push(id);
+    }else{
+      const index = signupEvents.indexOf(id);
+      if (index > -1) {
+      signupEvents.splice(index, 1);
+    }
+    }
     setSignupEvents(signupEvents);
     setMyEvents(eventsData.filter(x=>{
       return signupEvents.includes(x.id)
@@ -119,17 +118,17 @@ return(
             <h1>Ganpti bappa morya</h1>
       
       {(filterEvents.length > 0) ? (
-        <EventList events={filterEvents} cities = {citiesData} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction}></EventList>
+        <EventList events={filterEvents} cities = {citiesData} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction} selectedTab={selectedTab}></EventList>
       ) : (
-        <span>No events main</span>
+        <h3>No Events Found</h3>
       )}
         </TabPanel>
         
         <TabPanel>
         {(myEvents.length > 0 && selectedTab != 0)? (
-        <EventList events={myEvents} cities = {citiesData} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction}></EventList>
+        <EventList events={myEvents} cities = {citiesData} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction} selectedTab={selectedTab}></EventList>
       ) : (
-        <span>No events</span>
+        <h3>No Signup Events Found</h3>
       )}
         </TabPanel>
       </Tabs>

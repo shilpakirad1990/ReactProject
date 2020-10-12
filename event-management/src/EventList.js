@@ -2,17 +2,17 @@ import React, {useState, useEffect} from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp})=>{
+const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp , selectedTab})=>{
     
     const submit = (id) => {
         confirmAlert({
-          title: 'SignUp',
+          title: (selectedTab) ? 'Cancel SignUp' :'SignUp',
           message: 'Please confirm',
           buttons: [
             {
               label: 'Ok',
               onClick: () => {
-                signUp(id)
+                signUp(id,selectedTab)
               }
             },
             {
@@ -91,11 +91,19 @@ const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp}
                 return <td>{value}</td>
             });
             swapNameField(cells, 2,1);
+            if(selectedTab){
+                cells.push(
+                    <td>
+                       <button class="btn-cls" onClick={e=>submit(item.id)}>Cancel SignUp</button>
+                    </td>
+                )
+            }else{
             cells.push(
                 <td>
                    <button class="btn-cls" onClick={e=>submit(item.id)}>Sign Up</button>
                 </td>
             )
+            }
            // cells.push( <td><button onClick={()=>updateSignupArr(item.id)} >SingUp</button></td>);
             return <tr key={index}>{cells}</tr>;
         });
