@@ -1,0 +1,169 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0 25px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px lightseagreen;
+  border-bottom: 2px solid lightseagreen;
+  border-right: 2px solid lightseagreen;
+}
+
+.content-table th, td {
+  text-align: center;
+  padding: 15px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+.content-table{
+  overflow-x:auto;
+}
+
+.content-table thead th{
+  background-color : lightseagreen;
+  color: #f2f2f2;
+}
+
+.filter-container{
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.filter-container {  
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.filter-container label {
+  margin: 20px;
+  font-weight: bold;
+  color: cornflowerblue;
+}
+
+
+.filter-container input,select {
+  vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid lightseagreen;
+    border-radius: 10px;
+}
+
+.filter-container button {
+  padding: 10px;
+  background-color: dodgerblue;
+  border: 1px solid #ddd;
+  color: white;
+  cursor: pointer;
+  margin: 15px;
+  min-width: 5%;
+  border-radius: 10px;
+}
+
+.filter-container label{
+  margin: 20px;
+}
+
+.filter-container button:hover {
+  background-color: royalblue;
+}
+
+.react-tabs__tab {
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-align: center;
+  min-width: 10%;
+  color: blue;
+  font-weight: bold;
+}
+
+.react-tabs__tab--selected {
+  border-color: #aaa;
+  color: black;
+  border-radius: 5px 5px 0 0;
+  background: lightcyan;
+  text-decoration: underline;
+}
+
+.react-confirm-alert-body {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 20px 10px lightseagreen;
+  color: #666;
+  border: 2px solid lightseagreen;
+}
+
+.react-confirm-alert-button-group > button {
+  border: none;
+  width: 45%;
+}
+
+.header-container {
+  height: 25%;
+    background-color: gray;
+    background-image: linear-gradient(to bottom,blue,white);
+    text-align: center;
+
+}
+
+.btn-cls{
+  background: lightcyan;
+    box-shadow: 0 2px lightseagreen;
+    border-radius: 10px;
+}
+
+
+
