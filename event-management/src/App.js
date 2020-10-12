@@ -49,12 +49,12 @@ const App = () => {
       return (x.name.includes(searchTextFilter))
     })*/
 
-    const searchRegex = searchTextFilter && new RegExp(`${searchTextFilter}`, "gi");
+    const searchRegex = searchTextFilter && new RegExp(`${searchTextFilter.toLowerCase()}`, "gi");
     
 
     const result = eventsData.filter(
       event =>
-        (!searchRegex || searchRegex.test(event.name)) &&
+        (!searchRegex || searchRegex.test(event.name) || searchRegex.test(getCityName(event.city))) &&
         (!isFreeFilter || event.isFree == isFreeFilter) &&
         (!(parseInt(showTimeFilter)) || filterByShowTime(showTimeFilter,event))
     );
@@ -72,6 +72,14 @@ const App = () => {
                     }else{
                     return (start >= timeVal.split("-")[0] && end <= timeVal.split("-")[1])
                     } 
+  }
+  
+
+  const getCityName = (id)=>{
+    let rec = citiesData.filter(x=> x.id === parseInt(id));
+    if(rec && rec[0] && rec[0].name){
+       return rec[0].name
+    }
   }
 
   
@@ -98,13 +106,13 @@ const App = () => {
 return(
   
   <div>
-   <div class="header-container">
+   <div className="header-container">
     <h2>Trivago Event Management</h2>
    </div>
     <Tabs onSelect={event => selectTab(event)}>
-        <TabList class="tab-container">
-          <Tab class="tab">Events View</Tab>
-          <Tab class="tab">My Events </Tab>
+        <TabList>
+          <Tab>Events View</Tab>
+          <Tab>My Events </Tab>
         </TabList>
         <TabPanel>
         <Filter
@@ -118,7 +126,7 @@ return(
             <h1>Ganpti bappa morya</h1>
       
       {(filterEvents.length > 0) ? (
-        <EventList events={filterEvents} cities = {citiesData} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction} selectedTab={selectedTab}></EventList>
+        <EventList events={filterEvents} cityName = {getCityName} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction} selectedTab={selectedTab}></EventList>
       ) : (
         <h3>No Events Found</h3>
       )}
@@ -126,7 +134,7 @@ return(
         
         <TabPanel>
         {(myEvents.length > 0 && selectedTab != 0)? (
-        <EventList events={myEvents} cities = {citiesData} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction} selectedTab={selectedTab}></EventList>
+        <EventList events={myEvents} cityName = {getCityName} signupEventsArr={signupEvents} setSignupEventsArr={setSignupEvents} signUp={signUpAction} selectedTab={selectedTab}></EventList>
       ) : (
         <h3>No Signup Events Found</h3>
       )}

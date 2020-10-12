@@ -17,9 +17,12 @@ const Filter = ({ searchValue, setSearchValue , isFreeFilter, setIsFreeFilter , 
         break;
 
         case 'RESET' :
+        default :
             setSearchValue(" ");
             setIsFreeFilter(false);
             setTimeFilter(0);
+        
+        
 
      }
     
@@ -28,20 +31,20 @@ const Filter = ({ searchValue, setSearchValue , isFreeFilter, setIsFreeFilter , 
 
   return (
     
-    <div class="filter-container">
+    <div className="filter-container">
       <div>
         <label>Search Events by :</label>
       </div>
-      <label for="show-searchTextArea">Event/City Name:</label>  
-      <input id="searchTextArea"
+      <label htmlFor="show-search-TextArea">Event/City Name:</label>  
+      <input id="show-search-TextArea"
         type="text" value={searchValue}
         onChange={(e) => updateSearchValue(e.target.value,'TEXT')}
       ></input>
 
-       <label for="show-isFreeCheckBox">IsFree:</label>
-       <input id="isFreeCheckBox" onClick={e=>updateSearchValue(e.target.checked,'IS_FREE')} type="checkbox" checked={isFreeFilter} />
+       <label htmlFor="show-isFreeCheckBox">IsFree:</label>
+       <input id="isFreeCheckBox" onChange={e=>updateSearchValue(e.target.checked,'IS_FREE')} type="checkbox" checked={isFreeFilter} />
        
-       <label for="show-time">Choose Show Time:</label>
+       <label htmlFor="show-time">Choose Show Time:</label>
         <select id="show-time" value={showTime}
            onChange={e=>updateSearchValue(e.target.value,'TIME')} >
         <option value="0">All</option>

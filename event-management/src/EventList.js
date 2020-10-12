@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp , selectedTab})=>{
+const EventList = ({events,cityName , signupEventsArr ,setSignupEventsArr, signUp , selectedTab})=>{
     
     const submit = (id) => {
         confirmAlert({
@@ -23,12 +23,6 @@ const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp 
         });
       };
 
-    const updateSignupArr = (id)=>{
-        console.log(id);
-        signupEventsArr.push(id);
-        setSignupEventsArr(signupEventsArr);
-    }
-
     const generateHeaders = () =>{
         if(events.length){
         var cols = Object.keys(events[0]); 
@@ -37,17 +31,17 @@ const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp 
             return <th key={colData}>{val}</th>;
         });
         swapNameField(columns, 2,1);
-        columns.push(<th>ACTION</th>);
+        columns.push(<th key="action">ACTION</th>);
         return columns;
     }
     };
 
-    const getCityName = (id)=>{
-        let rec = cities.filter(x=> x.id == id);
+    /*const getCityName = (id)=>{
+        let rec = cities.filter(x=> x.id === parseInt(id));
         if(rec && rec[0] && rec[0].name){
            return rec[0].name
         }
-    }
+    }*/
 
     const formatDate = (dateVal) => {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];;
@@ -83,24 +77,26 @@ const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp 
                     value = formatDate(value);
                 }
                 if(colData == 'city'){
-                    value =  getCityName(value)
+                    value =  cityName(value)
                 }
                 if(colData == 'isFree'){
                     value = (value == true) ? 'Yes' : 'No' 
                 }
-                return <td>{value}</td>
+                let key = `${index}+${colData}`;
+                return <td key={key}>{value}</td>
             });
             swapNameField(cells, 2,1);
+            let actionIndex = cols.length+1;
             if(selectedTab){
                 cells.push(
-                    <td>
-                       <button class="btn-cls" onClick={e=>submit(item.id)}>Cancel SignUp</button>
+                    <td key={`${actionIndex}+"-"cancel-action`}>
+                       <button className="btn-cls" onClick={e=>submit(item.id)}>Cancel SignUp</button>
                     </td>
                 )
             }else{
             cells.push(
-                <td>
-                   <button class="btn-cls" onClick={e=>submit(item.id)}>Sign Up</button>
+                <td key={`${actionIndex}+"-"signup-action`}>
+                   <button className="btn-cls" onClick={e=>submit(item.id)}>Sign Up</button>
                 </td>
             )
             }
@@ -111,7 +107,7 @@ const EventList = ({events,cities , signupEventsArr ,setSignupEventsArr, signUp 
     }
 
     return(
-        <div class="content-table">
+        <div className="content-table">
      <table>
         <thead><tr>{generateHeaders()}</tr></thead>
         <tbody>{generateRows()}</tbody>
