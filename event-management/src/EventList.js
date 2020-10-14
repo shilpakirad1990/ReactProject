@@ -1,7 +1,8 @@
 import React from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
+import map  from './icons/map.jpg';
+import clock from './icons/clock.png';
 
 const EventList = ({events,cityName,signUp,selectedTab})=>{
    
@@ -25,103 +26,109 @@ const EventList = ({events,cityName,signUp,selectedTab})=>{
         });
       };
 
-    //create table headers  
-    const generateHeaders = () =>{
-        if(events.length){
-        var cols = Object.keys(events[0]); 
-        let columns = cols.map(function(colData) {
-            let val = colData.toUpperCase();
-            return <th key={colData}>{val}</th>;
-        });
-        swapNameField(columns, 2,1);
-        columns.push(<th key="action">ACTION</th>);
-        return columns;
+    //format json in order to find same day events
+    const formatEventsJson = (events) =>{
+        const results = events.reduce((eventsList,item) => {
+            let date = new Date(item.startDate).toDateString();
+            if (!eventsList[date]) eventsList[date] = [];
+            eventsList[date].push(item);
+            return eventsList;
+          }, {});
+        return results;
+    }
+
+    //function to display event from-to time
+    const displayEventTime = (start, end)=>{
+        let fromVal = getHoursMinutesValue(start);
+        let toVal = getHoursMinutesValue(end);
+        return (
+            <div className ="display-inline"> 
+                <img src={clock} alt="city"></img>
+                from {fromVal} to {toVal}
+            </div>  )
+    }
+
+    //date formatting
+    const getHoursMinutesValue = (date)=>{
+        let dateVal = new Date(date);
+        let hoursVal = dateVal.getUTCHours();
+        let minutesVal = dateVal.getUTCMinutes();
+        let ampm = hoursVal >= 12 ? 'PM' : 'AM';
+        let hours = hoursVal % 12;
+        hours = hours? hours : 12;
+        let minutes = minutesVal < 10 ? '0'+minutesVal : minutesVal;
+        return (`${hours}.${minutes} ${ampm}`)
+    }
+
+    const formatEventDate = (d)=>{
+        let dateArr = d.split(" ");
+        const daysNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const monthsNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let month = monthsNames.find(mon=> mon.includes(dateArr[1]));
+        let day = daysNames.find(day=> day.includes(dateArr[0]));
+        let suffix = getDateSuffix(dateArr[2]);
+        return `${day}, ${dateArr[2]}${suffix} ${month}`
+
+    }
+
+     const getDateSuffix = (d) =>{
+        if (d > 3 && d < 21) return 'th';
+            switch (d % 10) {
+              case 1:  return "st";
+              case 2:  return "nd";
+              case 3:  return "rd";
+              default: return "th";
         }
-    };
+     }
 
-    //create table rows 
-    const generateRows = ()=>{ 
-        if(events.length){
-        let cols = Object.keys(events[0]);
-        let data = events;
-    
-        return data.map(function(item,index) {
-                var cells = cols.map(function(colData) {
-                let value = item[colData];
-                let displayValue = formatGridDisplayValue(colData,value);
-                let key = `${index}+${colData}`;
-                return <td key={key}>{displayValue}</td>
-            });
-            swapNameField(cells, 2,1);
-            let actionIndex = cols.length+1;
-            if(selectedTab){
-                cells.push(
-                    <td key={`${actionIndex}+"-"cancel-action`}>
-                       <button className="btn-cls" onClick={e=>submit(item.id)}>Cancel SignUp</button>
-                    </td>
-                )
-            }else{
-                cells.push(
-                <td key={`${actionIndex}+"-"signup-action`}>
-                   <button className="btn-cls" onClick={e=>submit(item.id)}>Sign Up</button>
-                </td>
-                )
-            }
-            return <tr key={index}>{cells}</tr>;
-        });
-        }
+    //create event container
+    const generateEventRows = ()=>{
+       let results = formatEventsJson(events);
+       let keysArr = Object.keys(results);
+       let data = keysArr.map(dateItem=>{
+            return(
+                <div key={dateItem} className="content-table">
+                    <div className="date-cls">
+                        {formatEventDate(dateItem)}
+                    </div>
+                   
+                    {results[dateItem].map(item=>{
+                    return(
+                        <div key={item.id} className = "event-container">
+                            
+                            <div className = "row1-cls">
+                                {(item.isFree) ? 
+                                (<><button className="is-free-btn">Free</button>
+                                <span className="name-with-free-cls">{item.name}</span></>)
+                                :
+                                <span className="name-cls">{item.name}</span>
+                                }
+                                
+                                {(!selectedTab)?
+                                <button className="signup-btn" onClick={e=>submit(item.id)}>SignUp</button>:
+                                <button className="signup-btn" onClick={e=>submit(item.id)}>Cancel Signup</button>
+                                }
+                            </div>
+                            
+                            <div className="row1-cls">
+                                <img className="float-left" src={map} alt="city"></img>
+                                <label className="float-left">{cityName(item.city)}</label>
+                                <label className = "float-right">{displayEventTime(item.startDate,item.endDate)}</label>
+                           </div>
+
+                        </div>
+                    )
+                    })}
+                </div>
+            )
+        })
+        return data;
     }
 
-    //format display values 
-    const formatGridDisplayValue = (header, value)=>{
-        switch(header) {
-            case 'id' : 
-                value++
-                break;
-            case 'startDate' :
-            case 'endDate' :
-                value = formatDate(value);
-                break;
-            case 'city' :
-                value =  cityName(value);
-                break;
-            case 'isFree' :
-                value = (value === true) ? 'Yes' : 'No' ;
-                break;
-            default :
-                break;
-        }
-        return value
-    }
-
-    //function for date formatting
-    const formatDate = (dateVal) => {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];;
-        let date = new Date(dateVal);
-        let hours = date.getUTCHours();
-        let minutes = date.getUTCHours();
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        let timeVal = hours + ':' + minutes + ' ' + ampm;
-        return  date.getDate() + ' ' +months[date.getMonth()] + ' ' + date.getFullYear() + '  @' +timeVal;
-    }
-
-    //Interchange position of name and isfree columns
-    const swapNameField = (arr,fromIndex,toIndex) =>{
-        let element = arr[fromIndex];
-        arr.splice(fromIndex, 1);
-        arr.splice(toIndex, 0, element);
-    }
-    
     return(
-    <div className="content-table">
-     <table>
-        <thead><tr>{generateHeaders()}</tr></thead>
-        <tbody>{generateRows()}</tbody>
-     </table>
-     </div>
+    <div>
+        {generateEventRows()}
+    </div>
     )
 }
 
